@@ -6,8 +6,8 @@ parallel-jobs = 1
 
 # you can use rvmm-config-gen to generate a config
 
-##########
 # dont build on gh actions (https://github.com/j-hc/revanced-magisk-module/issues/554)
+
 [Music-Extended]
 enabled = false
 app-name = "Music"
@@ -40,36 +40,34 @@ enabled = false
 apkmirror-dlurl = "https://apkmirror.com/apk/x-corp/twitter"
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.twitter.android"
 
-##########
-#https://j-hc.github.io/rvmm-config-gen/
 [com.google.android.apps.photos]
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/photos"
 uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
-#
+
 [Instagram]
 apkmirror-dlurl = "https://apkmirror.com/apk/instagram/instagram-instagram"
-#
+
 [Messenger]
 apkmirror-dlurl = "https://apkmirror.com/apk/facebook-2/messenger"
-#
+
 [Reddit]
 apkmirror-dlurl = "https://apkmirror.com/apk/redditinc/reddit"
-#
+
 [Tiktok]
 apkmirror-dlurl = "https://apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
 included-patches = "'SIM spoof'"
-#
+# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
+
 [YouTube]
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube"
 uptodown-dlurl = "https://youtube.en.uptodown.com/android"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
 included-patches = "'Remove player controls background' 'Force hide player buttons background' 'Hide Shorts dimming' 'Hide shortcuts' 'MaterialYou'"
 excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for YouTube'"
-#
+# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
+
 [Music]
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube-music"
 uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
 included-patches = "'Disable music video in album' 'Hide overlay filter' 'Hide player overlay filter'"
 excluded-patches = "'Custom branding icon for YouTube Music' 'Custom branding name for YouTube Music'"
+# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
