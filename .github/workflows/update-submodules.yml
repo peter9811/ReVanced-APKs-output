@@ -1,0 +1,57 @@
+name: Update Submodules
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    # Allows manual triggering
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Git config
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Update anddea/revanced-patches
+        run: |
+          git submodule update --init -- anddea-patches
+          cd anddea-patches
+          git checkout main
+          git pull origin main
+          cd ..
+
+      - name: Update ReVanced/revanced-patches
+        run: |
+          git submodule update --init -- revanced-patches
+          cd revanced-patches
+          git checkout main
+          git pull origin main
+          cd ..
+
+      - name: Update inotia00/revanced-patches
+        run: |
+          git submodule update --init -- inotia00-patches
+          cd inotia00-patches
+          git checkout revanced-extended
+          git pull origin revanced-extended
+          cd ..
+
+      - name: Commit and push changes
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Update patch repositories"
+          git push
