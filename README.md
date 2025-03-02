@@ -31,9 +31,9 @@ Note that the <a href="../../actions/workflows/ci.yml">CI workflow</a> is schedu
 
 This project includes the following patch repositories as submodules:
 
-* [Official ReVanced Patches](https://github.com/ReVanced/revanced-patches/) - The official ReVanced patches
-* [inotia00's Extended Patches](https://github.com/inotia00/revanced-patches/) - ReVanced Extended patches with additional features
-* [anddea's Patches](https://github.com/anddea/revanced-patches/) - Additional community patches
+- [Official ReVanced Patches](https://github.com/ReVanced/revanced-patches/) - The official ReVanced patches
+- [inotia00's Extended Patches](https://github.com/inotia00/revanced-patches/) - ReVanced Extended patches with additional features
+- [anddea's Patches](https://github.com/anddea/revanced-patches/) - Additional community patches
 
 To add these submodules to your repository, run the provided script:
 
@@ -43,11 +43,11 @@ add-patch-submodules.bat
 
 ## To include/exclude patches or patch other apps
 
-* Star the repo :eyes:
-* Use the repo as a [template](https://github.com/new?template_name=revanced-magisk-module&template_owner=j-hc)
-* Customize [`config.toml`](./config.toml) using [rvmm-config-gen](https://j-hc.github.io/rvmm-config-gen/)
-* Run the build [workflow](../../actions/workflows/build.yml)
-* Grab your modules and APKs from [releases](../../releases)
+- Star the repo :eyes:
+- Use the repo as a [template](https://github.com/new?template_name=revanced-magisk-module&template_owner=j-hc)
+- Customize [`config.toml`](./config.toml) using [rvmm-config-gen](https://j-hc.github.io/rvmm-config-gen/)
+- Run the build [workflow](../../actions/workflows/build.yml)
+- Grab your modules and APKs from [releases](../../releases)
 
 also see here [`CONFIG.md`](./CONFIG.md)
 
