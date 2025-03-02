@@ -13,3 +13,12 @@
     url = https://github.com/inotia00/revanced-patches.git
     branch = revanced-extended
 
+[submodule "patches/anddea"]
+	path = patches/anddea
+	url = https://github.com/anddea/revanced-patches/
+[submodule "patches/revanced"]
+	path = patches/revanced
+	url = https://github.com/ReVanced/revanced-patches/
+[submodule "patches/inotia00"]
+	path = patches/inotia00
+	url = https://github.com/inotia00/revanced-patches/
