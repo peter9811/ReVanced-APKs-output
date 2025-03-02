@@ -2,12 +2,12 @@ enable-magisk-update = true # set this to false if you do not want to receive up
 parallel-jobs = 1
 
 # add 'enabled = false' for not patching a specific app or remove it from the config
-# see https://github.com/j-hc/revanced-magisk-module/blob/main/CONFIG.md for more detailed explanations
+# see https://www.github.com/j-hc/revanced-magisk-module/blob/main/CONFIG.md for more detailed explanations
 
 # you can use rvmm-config-gen to generate a config
 
 ##########
-# dont build on gh actions (https://github.com/j-hc/revanced-magisk-module/issues/554)
+# dont build on gh actions (https://www.github.com/j-hc/revanced-magisk-module/issues/554)
 [Music-Extended]
 enabled = false
 app-name = "Music"
@@ -17,7 +17,7 @@ rv-brand = "ReVanced Extended"
 build-mode = "both"
 arch = "both"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
 
 [YouTube-Extended]
 enabled = false
@@ -27,49 +27,49 @@ cli-source = "inotia00/revanced-cli"
 rv-brand = "ReVanced Extended"
 build-mode = "both"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.youtube"
 
 [Twitch]
 enabled = false
 apkmirror-dlurl = "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch/"
-uptodown-dlurl = "https://twitch.en.uptodown.com/android"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/tv.twitch.android.app"
+uptodown-dlurl = "https://www.twitch.en.uptodown.com/android"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/tv.twitch.android.app"
 
 [Twitter]
 enabled = false
 apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.twitter.android"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.twitter.android"
 
 ##########
-#https://j-hc.github.io/rvmm-config-gen/
+#https://www.j-hc.github.io/rvmm-config-gen/
 [com.google.android.apps.photos]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
-uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
+uptodown-dlurl = "https://www.google-photos.en.uptodown.com/android"
 #
 [Instagram]
-apkmirror-dlurl = "https://apkmirror.com/apk/instagram/instagram-instagram/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram/"
 #
 [Messenger]
-apkmirror-dlurl = "https://apkmirror.com/apk/facebook-2/messenger/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger/"
 #
 [Reddit]
-apkmirror-dlurl = "https://apkmirror.com/apk/redditinc/reddit/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit/"
 #
 [Tiktok]
-apkmirror-dlurl = "https://apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
 included-patches = "'SIM spoof'"
 #
 [YouTube]
-apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube/"
-uptodown-dlurl = "https://youtube.en.uptodown.com/android"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
+uptodown-dlurl = "https://www.youtube.en.uptodown.com/android"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.youtube"
 included-patches = "'Remove player controls background' 'Force hide player buttons background' 'Hide Shorts dimming' 'Hide shortcuts' 'MaterialYou'"
 excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for YouTube'"
 #
 [Music]
-apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube-music/"
-uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
-# archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+uptodown-dlurl = "https://www.youtube-music.en.uptodown.com/android"
+# archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
 included-patches = "'Disable music video in album' 'Hide overlay filter' 'Hide player overlay filter'"
 excluded-patches = "'Custom branding icon for YouTube Music' 'Custom branding name for YouTube Music'"
