@@ -6,8 +6,3 @@ test*
 /logs
 build.md
 cmpr
-*.log
-*.diff
-patches/anddea
-patches/inotia00
-patches/revanced
