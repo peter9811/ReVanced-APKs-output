@@ -31,7 +31,7 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
 
 [Twitch]
 enabled = false
-apkmirror-dlurl = "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/twitch-interactive-inc/twitch"
 uptodown-dlurl = "https://www.twitch.en.uptodown.com/android"
 # archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/tv.twitch.android.app"
 
@@ -43,17 +43,17 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter"
 ##########
 #https://www.j-hc.github.io/rvmm-config-gen/
 [com.google.android.apps.photos]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos"
 uptodown-dlurl = "https://www.google-photos.en.uptodown.com/android"
 #
 [Instagram]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/instagram/instagram-instagram"
 #
 [Messenger]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
 #
 [Reddit]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
 #
 [Tiktok]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/"
@@ -61,14 +61,14 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-includin
 included-patches = "'SIM spoof'"
 #
 [YouTube]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
 uptodown-dlurl = "https://www.youtube.en.uptodown.com/android"
 # archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.youtube"
 included-patches = "'Remove player controls background' 'Force hide player buttons background' 'Hide Shorts dimming' 'Hide shortcuts' 'MaterialYou'"
 excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for YouTube'"
 #
 [Music]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube-music"
 uptodown-dlurl = "https://www.youtube-music.en.uptodown.com/android"
 # archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
 included-patches = "'Disable music video in album' 'Hide overlay filter' 'Hide player overlay filter'"
