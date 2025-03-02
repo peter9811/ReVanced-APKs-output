@@ -1,18 +1,3 @@
-[submodule "anddea-patches"]
-    path = anddea-patches
-    url = https://github.com/anddea/revanced-patches.git
-    branch = main
-
-[submodule "revanced-patches"]
-    path = revanced-patches
-    url = https://github.com/ReVanced/revanced-patches.git
-    branch = main
-
-[submodule "inotia00-patches"]
-    path = inotia00-patches
-    url = https://github.com/inotia00/revanced-patches.git
-    branch = revanced-extended
-
 [submodule "patches/anddea"]
 	path = patches/anddea
 	url = https://github.com/anddea/revanced-patches/
