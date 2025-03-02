@@ -62,7 +62,6 @@ arch = "both"
 
 [Reddit]
 apkmirror-dlurl = "https://apkmirror.com/apk/redditinc/reddit/"
-uptodown-dlurl = "https://reddit.en.uptodown.com/android"
 arch = "both"
 #archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.reddit.frontpage"
 
