@@ -22,7 +22,7 @@ jobs:
       - name: actions-template-sync
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.source_gh_token }}
           source_repo_path: j-hc/revanced-magisk-module
           upstream_branch: main # defaults to main
-          pr_labels: sync
+          pr_labels: sync,fix
