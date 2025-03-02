@@ -56,7 +56,7 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/facebook-2/messenger"
 apkmirror-dlurl = "https://www.apkmirror.com/apk/redditinc/reddit"
 #
 [Tiktok]
-apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/"
+apkmirror-dlurl = "https://www.apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly"
 # archive-dlurl = "https://www.archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
 included-patches = "'SIM spoof'"
 #
