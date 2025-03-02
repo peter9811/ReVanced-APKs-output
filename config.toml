@@ -45,25 +45,31 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/x-corp/twitter"
 [GooglePhotos]
 apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/photos/"
 uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
+arch = "both"
 #
 [Instagram]
 apkmirror-dlurl = "https://apkmirror.com/apk/instagram/instagram-instagram/"
+arch = "both"
 #
 [Messenger]
 apkmirror-dlurl = "https://apkmirror.com/apk/facebook-2/messenger/"
+arch = "both"
 #
 [Reddit]
 apkmirror-dlurl = "https://apkmirror.com/apk/redditinc/reddit/"
+arch = "both"
 #
 [Tiktok]
 apkmirror-dlurl = "https://apkmirror.com/apk/tiktok-pte-ltd/tik-tok-including-musical-ly/"
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
 included-patches = "'SIM spoof'"
+arch = "both"
 #
 [YouTube]
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube/"
 uptodown-dlurl = "https://youtube.en.uptodown.com/android"
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
+arch = "both"
 included-patches = "'Remove player controls background' 'Force hide player buttons background' 'Hide Shorts dimming' 'Hide shortcuts' 'MaterialYou'"
 excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for YouTube'"
 #
@@ -71,5 +77,6 @@ excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube-music/"
 uptodown-dlurl = "https://youtube-music.en.uptodown.com/android"
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.apps.youtube.music"
+arch = "both"
 included-patches = "'Disable music video in album' 'Hide overlay filter' 'Hide player overlay filter'"
 excluded-patches = "'Custom branding icon for YouTube Music' 'Custom branding name for YouTube Music'"
