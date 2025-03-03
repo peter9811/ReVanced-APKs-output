@@ -1,13 +1,19 @@
 name: CI
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Manual trigger
   schedule:
-    - cron: "0 16 * * *"
+    - cron: "0 16 * * *" # Run daily at 16:00 UTC
+
+# Prevent multiple workflow runs executing at the same time
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   check:
     permissions: write-all
     runs-on: ubuntu-latest
+    timeout-minutes: 10 # Add timeout to prevent hanging jobs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,24 +26,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if ! git checkout origin/update build.md; then
-            echo "first time building!"
+          # Check if this is the first build or if config has changed
+          if ! git checkout origin/update build.md 2>/dev/null; then
+            echo "First time building or update branch doesn't exist yet"
+            echo "SHOULD_BUILD=1" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check if configuration has changed
+          UPDATE_CFG=$(./build.sh config.toml --config-update || echo "ERROR")
+          if [ "$UPDATE_CFG" = "ERROR" ]; then
+            echo "Error checking config updates, proceeding with build to be safe"
+            echo "SHOULD_BUILD=1" >> $GITHUB_OUTPUT
+          elif [ -n "$UPDATE_CFG" ]; then
+            echo "Config changes detected: '$UPDATE_CFG'"
             echo "SHOULD_BUILD=1" >> $GITHUB_OUTPUT
           else
-            UPDATE_CFG=$(./build.sh config.toml --config-update)
-            if [ "$UPDATE_CFG" ]; then
-              echo "'$UPDATE_CFG'"
-              echo "SHOULD_BUILD=1" >> $GITHUB_OUTPUT
-            else
-              echo "SHOULD_BUILD=0" >> $GITHUB_OUTPUT
-            fi
+            echo "No config changes, skipping build"
+            echo "SHOULD_BUILD=0" >> $GITHUB_OUTPUT
           fi
 
       - name: Clear older runs
+        if: always() # Run cleanup even if previous steps fail
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh run list -L400 --json databaseId -q '.[].databaseId' | tail -n+10 | xargs -IID gh api "repos/$GITHUB_REPOSITORY/actions/runs/ID" -X DELETE || :
+          echo "Keeping the latest 9 workflow runs and removing older ones"
+          gh run list --workflow "${{ github.workflow }}" -L100 --json databaseId -q '.[9:] | .[].databaseId' |
+          xargs -I{} gh api "repos/$GITHUB_REPOSITORY/actions/runs/{}" -X DELETE ||
+          echo "No old runs to delete or cleanup failed"
 
     outputs:
       SHOULD_BUILD: ${{ steps.should_build.outputs.SHOULD_BUILD }}

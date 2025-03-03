@@ -66,3 +66,25 @@ git clone https://github.com/j-hc/revanced-magisk-module
 cd revanced-magisk-module
 ./build.sh
 ```
+
+# ReVanced APKs Output
+
+This repository contains automatically built ReVanced APKs. The builds are automatically triggered:
+
+- Daily at 16:00 UTC
+- Manually using the "Run workflow" button
+- When configuration changes are detected
+
+## How it works
+
+1. The CI workflow checks if there are any configuration changes
+2. If changes are detected or this is the first run, it triggers the build workflow
+3. The build workflow creates the APKs and publishes them
+
+## Configuration
+
+The build process uses `config.toml` for configuration. Any changes to this file will trigger a new build.
+
+## Manual Build
+
+To manually trigger a build, go to the Actions tab, select the CI workflow, and click "Run workflow".
