@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Bug report
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 **DO NOT REPORT REVANCED STUFF IN THIS REPO**

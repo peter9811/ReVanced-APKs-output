@@ -1,6 +1,4 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic",
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ]
+  "java.compile.nullAnalysis.mode": "automatic",
+  "githubPullRequests.ignoredPullRequestBranches": ["main"]
 }
