@@ -313,28 +313,27 @@ apk_mirror_search() {
 }
 dl_apkmirror() {
 	local url=$1 version=${2// /-} output=$3 arch=$4 dpi=$5 is_bundle=false
-	if [ -f "${output}.apkm" ]; then
-		is_bundle=true
-	else
-		if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
-		local resp node app_table uurl dlurl=""
-		uurl=$(grep -F "downloadLink" <<<"$__APKMIRROR_RESP__" | grep -F "${version//./-}-release/" | head -1 |
-			sed -n 's;.*href="\(.*-release\).*;\1;p')
-		if [ -z "$uurl" ]; then url="${url}/${url##*/}-${version//./-}-release/"; else url=https://www.apkmirror.com$uurl; fi
-		resp=$(req "$url" -) || return 1
-		node=$($HTMLQ "div.table-row.headerFont:nth-last-child(1)" -r "span:nth-child(n+3)" <<<"$resp")
-		if [ "$node" ]; then
-			if ! dlurl=$(apk_mirror_search "$resp" "$dpi" "${arch}" "APK"); then
-				if ! dlurl=$(apk_mirror_search "$resp" "$dpi" "${arch}" "BUNDLE"); then
-					return 1
-				else is_bundle=true; fi
-			fi
-			[ -z "$dlurl" ] && return 1
-			resp=$(req "$dlurl" -)
+
+	# Define architecture priority (universal first, then arm64-v8a, then arm-v7a)
+	local arch_priority=("universal" "arm64-v8a" "arm-v7a")
+	local resp=$(req "$url" -) || return 1
+
+	for try_arch in "${arch_priority[@]}"; do
+		local search_arch=$try_arch
+		[ "$search_arch" = "universal" ] && search_arch="all"
+
+		if dlurl=$(apk_mirror_search "$resp" "$dpi" "$search_arch" "APK"); then
+			arch=$try_arch
+			break
 		fi
-		url=$(echo "$resp" | $HTMLQ --base https://www.apkmirror.com --attribute href "a.btn") || return 1
-		url=$(req "$url" - | $HTMLQ --base https://www.apkmirror.com --attribute href "span > a[rel = nofollow]") || return 1
+	done
+
+	if [ -z "$dlurl" ]; then
+		epr "Could not find APK for any architecture (tried: ${arch_priority[*]})"
+		return 1
 	fi
+
+	resp=$(req "$dlurl" -)
 
 	if [ "$is_bundle" = true ]; then
 		req "$url" "${output}.apkm" || return 1
@@ -515,17 +514,27 @@ build_rv() {
 	version_f=${version_f#v}
 	local stock_apk="${TEMP_DIR}/${pkg_name}-${version_f}-${arch_f}.apk"
 	if [ ! -f "$stock_apk" ]; then
+		local dl_success=false
 		for dl_p in archive apkmirror uptodown; do
 			if [ -z "${args[${dl_p}_dlurl]}" ]; then continue; fi
 			pr "Downloading '${table}' from ${dl_p}"
-			if ! isoneof $dl_p "${tried_dl[@]}"; then get_${dl_p}_resp "${args[${dl_p}_dlurl]}"; fi
-			if ! dl_${dl_p} "${args[${dl_p}_dlurl]}" "$version" "$stock_apk" "$arch" "${args[dpi]}" "$get_latest_ver"; then
-				epr "ERROR: Could not download '${table}' from ${dl_p} with version '${version}', arch '${arch}', dpi '${args[dpi]}'"
-				continue
+			if ! isoneof $dl_p "${tried_dl[@]}"; then
+				if ! get_${dl_p}_resp "${args[${dl_p}_dlurl]}"; then
+					epr "Failed to get response from ${dl_p}"
+					continue
+				fi
 			fi
-			break
+			if dl_${dl_p} "${args[${dl_p}_dlurl]}" "$version" "$stock_apk" "$arch" "${args[dpi]}" "$get_latest_ver"; then
+				dl_success=true
+				break
+			else
+				epr "ERROR: Could not download '${table}' from ${dl_p} with version '${version}', arch '${arch}', dpi '${args[dpi]}'"
+			fi
 		done
-		if [ ! -f "$stock_apk" ]; then return 0; fi
+		if [ "$dl_success" = false ]; then
+			epr "All download sources failed for ${table}"
+			return 0
+		fi
 	fi
 	if ! OP=$(check_sig "$stock_apk" "$pkg_name" 2>&1) && ! grep -qFx "ERROR: Missing META-INF/MANIFEST.MF" <<<"$OP"; then
 		abort "apk signature mismatch '$stock_apk': $OP"
