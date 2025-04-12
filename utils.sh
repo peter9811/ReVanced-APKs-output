@@ -122,16 +122,12 @@ get_rv_prebuilts() {
 
 set_prebuilts() {
 	APKSIGNER="${BIN_DIR}/apksigner.jar"
-	if [ "$OS" = Android ]; then
-		local arch
-		if [ "$(uname -m)" = aarch64 ]; then arch=arm64; else arch=arm; fi
-		HTMLQ="${BIN_DIR}/htmlq/htmlq-${arch}"
-		AAPT2="${BIN_DIR}/aapt2/aapt2-${arch}"
-		TOML="${BIN_DIR}/toml/tq-${arch}"
-	else
-		HTMLQ="${BIN_DIR}/htmlq/htmlq-x86_64"
-		TOML="${BIN_DIR}/toml/tq-x86_64"
-	fi
+	local arch
+	arch=$(uname -m)
+	if [ "$arch" = aarch64 ]; then arch=arm64; elif [ "${arch:0:5}" = "armv7" ]; then arch=arm; fi
+	HTMLQ="${BIN_DIR}/htmlq/htmlq-${arch}"
+	AAPT2="${BIN_DIR}/aapt2/aapt2-${arch}"
+	TOML="${BIN_DIR}/toml/tq-${arch}"
 }
 
 config_update() {
@@ -313,27 +309,28 @@ apk_mirror_search() {
 }
 dl_apkmirror() {
 	local url=$1 version=${2// /-} output=$3 arch=$4 dpi=$5 is_bundle=false
-
-	# Define architecture priority (universal first, then arm64-v8a, then arm-v7a)
-	local arch_priority=("universal" "arm64-v8a" "arm-v7a")
-	local resp=$(req "$url" -) || return 1
-
-	for try_arch in "${arch_priority[@]}"; do
-		local search_arch=$try_arch
-		[ "$search_arch" = "universal" ] && search_arch="all"
-
-		if dlurl=$(apk_mirror_search "$resp" "$dpi" "$search_arch" "APK"); then
-			arch=$try_arch
-			break
+	if [ -f "${output}.apkm" ]; then
+		is_bundle=true
+	else
+		if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
+		local resp node app_table uurl dlurl=""
+		uurl=$(grep -F "downloadLink" <<<"$__APKMIRROR_RESP__" | grep -F "${version//./-}-release/" | head -1 |
+			sed -n 's;.*href="\(.*-release\).*;\1;p')
+		if [ -z "$uurl" ]; then url="${url}/${url##*/}-${version//./-}-release/"; else url=https://www.apkmirror.com$uurl; fi
+		resp=$(req "$url" -) || return 1
+		node=$($HTMLQ "div.table-row.headerFont:nth-last-child(1)" -r "span:nth-child(n+3)" <<<"$resp")
+		if [ "$node" ]; then
+			if ! dlurl=$(apk_mirror_search "$resp" "$dpi" "${arch}" "APK"); then
+				if ! dlurl=$(apk_mirror_search "$resp" "$dpi" "${arch}" "BUNDLE"); then
+					return 1
+				else is_bundle=true; fi
+			fi
+			[ -z "$dlurl" ] && return 1
+			resp=$(req "$dlurl" -)
 		fi
-	done
-
-	if [ -z "$dlurl" ]; then
-		epr "Could not find APK for any architecture (tried: ${arch_priority[*]})"
-		return 1
+		url=$(echo "$resp" | $HTMLQ --base https://www.apkmirror.com --attribute href "a.btn") || return 1
+		url=$(req "$url" - | $HTMLQ --base https://www.apkmirror.com --attribute href "span > a[rel = nofollow]") || return 1
 	fi
-
-	resp=$(req "$dlurl" -)
 
 	if [ "$is_bundle" = true ]; then
 		req "$url" "${output}.apkm" || return 1
@@ -372,35 +369,47 @@ get_uptodown_resp() {
 get_uptodown_vers() { $HTMLQ --text ".version" <<<"$__UPTODOWN_RESP__"; }
 dl_uptodown() {
 	local uptodown_dlurl=$1 version=$2 output=$3 arch=$4 _dpi=$5
+	local apparch
 	if [ "$arch" = "arm-v7a" ]; then arch="armeabi-v7a"; fi
+	if [ "$arch" = all ]; then
+		apparch=('arm64-v8a, armeabi-v7a, x86, x86_64' 'arm64-v8a, armeabi-v7a')
+	else apparch=("$arch" 'arm64-v8a, armeabi-v7a, x86, x86_64' 'arm64-v8a, armeabi-v7a'); fi
+
 	local op resp data_code
 	data_code=$($HTMLQ "#detail-app-name" --attribute data-code <<<"$__UPTODOWN_RESP__")
 	local versionURL=""
+	local is_bundle=false
 	for i in {1..5}; do
 		resp=$(req "${uptodown_dlurl}/apps/${data_code}/versions/${i}" -)
-		if ! op=$(jq -e -r ".data | map(select(.version == \"${version}\" and .kindFile == \"apk\")) | .[0]" <<<"$resp"); then
+		if ! op=$(jq -e -r ".data | map(select(.version == \"${version}\")) | .[0]" <<<"$resp"); then
 			continue
 		fi
+		if [ "$(jq -e -r ".kindFile" <<<"$op")" = "xapk" ]; then is_bundle=true; fi
 		if versionURL=$(jq -e -r '.versionURL' <<<"$op"); then break; else return 1; fi
 	done
 	if [ -z "$versionURL" ]; then return 1; fi
 	resp=$(req "$versionURL" -) || return 1
-	if [ "$arch" != all ]; then
-		local data_version files node_arch data_file_id
-		data_version=$($HTMLQ '.button.variants' --attribute data-version <<<"$resp") || return 1
-		files=$(req "${uptodown_dlurl%/*}/app/${data_code}/version/${data_version}/files" - | jq -e -r .content) || return 1
-		for ((n = 1; n < 12; n += 2)); do
-			node_arch=$($HTMLQ ".content > p:nth-child($n)" --text <<<"$files" | xargs) || return 1
-			if [ -z "$node_arch" ]; then return 1; fi
-			if [ "$node_arch" != "$arch" ]; then continue; fi
-			data_file_id=$($HTMLQ "div.variant:nth-child($((n + 1))) > .v-report" --attribute data-file-id <<<"$files") || return 1
-			resp=$(req "${uptodown_dlurl}/download/${data_file_id}" -)
-			break
-		done
-	fi
+
+	local data_version files node_arch data_file_id
+	data_version=$($HTMLQ '.button.variants' --attribute data-version <<<"$resp") || return 1
+	files=$(req "${uptodown_dlurl%/*}/app/${data_code}/version/${data_version}/files" - | jq -e -r .content) || return 1
+	for ((n = 1; n < 12; n += 2)); do
+		node_arch=$($HTMLQ ".content > p:nth-child($n)" --text <<<"$files" | xargs) || return 1
+		if [ -z "$node_arch" ]; then return 1; fi
+		if ! isoneof "$node_arch" "${apparch[@]}"; then continue; fi
+		data_file_id=$($HTMLQ "div.variant:nth-child($((n + 1))) > .v-report" --attribute data-file-id <<<"$files") || return 1
+		resp=$(req "${uptodown_dlurl}/download/${data_file_id}-x" -)
+		break
+	done
+
 	local data_url
 	data_url=$($HTMLQ "#detail-download-button" --attribute data-url <<<"$resp") || return 1
-	req "https://dw.uptodown.com/dwn/${data_url}" "$output"
+	if [ $is_bundle = true ]; then
+		req "https://dw.uptodown.com/dwn/${data_url}" "$output.apkm" || return 1
+		merge_splits "${output}.apkm" "${output}"
+	else
+		req "https://dw.uptodown.com/dwn/${data_url}" "$output"
+	fi
 }
 get_uptodown_pkg_name() { $HTMLQ --text "tr.full:nth-child(1) > td:nth-child(3)" <<<"$__UPTODOWN_RESP_PKG__"; }
 
@@ -514,27 +523,17 @@ build_rv() {
 	version_f=${version_f#v}
 	local stock_apk="${TEMP_DIR}/${pkg_name}-${version_f}-${arch_f}.apk"
 	if [ ! -f "$stock_apk" ]; then
-		local dl_success=false
 		for dl_p in archive apkmirror uptodown; do
 			if [ -z "${args[${dl_p}_dlurl]}" ]; then continue; fi
 			pr "Downloading '${table}' from ${dl_p}"
-			if ! isoneof $dl_p "${tried_dl[@]}"; then
-				if ! get_${dl_p}_resp "${args[${dl_p}_dlurl]}"; then
-					epr "Failed to get response from ${dl_p}"
-					continue
-				fi
-			fi
-			if dl_${dl_p} "${args[${dl_p}_dlurl]}" "$version" "$stock_apk" "$arch" "${args[dpi]}" "$get_latest_ver"; then
-				dl_success=true
-				break
-			else
+			if ! isoneof $dl_p "${tried_dl[@]}"; then get_${dl_p}_resp "${args[${dl_p}_dlurl]}"; fi
+			if ! dl_${dl_p} "${args[${dl_p}_dlurl]}" "$version" "$stock_apk" "$arch" "${args[dpi]}" "$get_latest_ver"; then
 				epr "ERROR: Could not download '${table}' from ${dl_p} with version '${version}', arch '${arch}', dpi '${args[dpi]}'"
+				continue
 			fi
+			break
 		done
-		if [ "$dl_success" = false ]; then
-			epr "All download sources failed for ${table}"
-			return 0
-		fi
+		if [ ! -f "$stock_apk" ]; then return 0; fi
 	fi
 	if ! OP=$(check_sig "$stock_apk" "$pkg_name" 2>&1) && ! grep -qFx "ERROR: Missing META-INF/MANIFEST.MF" <<<"$OP"; then
 		abort "apk signature mismatch '$stock_apk': $OP"
