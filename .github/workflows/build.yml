@@ -1,4 +1,4 @@
-name: Build Modules
+name: Build Releases
 on:
   workflow_call:
     inputs:
