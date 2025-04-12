@@ -12,7 +12,7 @@ parallel-jobs = 1
 #https://j-hc.github.io/rvmm-config-gen/
 ####################################################################################################
 #inotia00-5.6.2
-[Music-inotia00]
+[YTMusic]
 app-name = "YouTube Music"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube-music/"
@@ -24,7 +24,7 @@ rv-brand = "inotia00 ReVanced"
 included-patches = "'Hide overlay filter' 'Hide player overlay filter' 'Disable music video in album' 'Return YouTube Username'"
 excluded-patches = "'Custom branding icon for YouTube Music' 'Custom branding name for YouTube Music'"
 
-[Reddit-inotia00]
+[Reddit]
 app-name = "Reddit"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/redditinc/reddit/"
@@ -34,7 +34,7 @@ patches-source = "inotia00/revanced-patches"
 integrations-source = "inotia00/revanced-integrations"
 rv-brand = "inotia00 ReVanced"
 
-[YouTube-inotia00]
+[YouTube]
 app-name = "YouTube"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/youtube/"
@@ -66,24 +66,24 @@ uptodown-dlurl = "https://tiktok.en.uptodown.com/android"
 archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.zhiliaoapp.musically"
 included-patches = "'SIM spoof'"
 
-[com.backdrops.wallpapers]
-app-name = "BackDrops"
+[Backdrops]
+app-name = "Backdrops"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/backdrops/backdrops-wallpapers/"
 
-[com.google.android.apps.photos]
+[GooglePhotos]
 app-name = "GooglePhotos"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/google-inc/photos/"
 uptodown-dlurl = "https://google-photos.en.uptodown.com/android"
 
-[com.spotify.music]
+[Spotify]
 app-name = "Spotify"
 arch = "arm64-v8a"
 uptodown-dlurl = "https://spotify.en.uptodown.com/android"
 included-patches = "'Custom theme'"
 
-[io.yuka.android]
+[Yuka]
 app-name = "Yuka"
 arch = "arm64-v8a"
 apkmirror-dlurl = "https://apkmirror.com/apk/yuka-apps/yuka-food-cosmetic-scan/"
