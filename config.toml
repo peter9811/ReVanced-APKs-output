@@ -111,15 +111,6 @@ apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube"
 # archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
 
 ###
-[YouTube]
-enabled = false
-arch = "arm64-v8a"
-included-patches = "'Remove player controls background' 'Force hide player buttons background' 'Hide Shorts dimming' 'Hide shortcuts' 'MaterialYou'"
-excluded-patches = "'Custom branding icon for YouTube' 'Custom branding name for YouTube'"
-apkmirror-dlurl = "https://www.apkmirror.com/apk/google-inc/youtube/"
-uptodown-dlurl = "https://youtube.en.uptodown.com/android"
-archive-dlurl = "https://archive.org/download/jhc-apks/apks/com.google.android.youtube"
-
 [Music]
 enabled = false
 arch = "arm64-v8a"
