@@ -1,7 +1,6 @@
 Backdrops: 5.2  
-GooglePhotos: 7.32.0.765953717  
+GooglePhotos: 7.34.0.773090893  
 Messenger: 430.0.0.0.8  
-Spotify: 9.0.54.80  
 Tiktok: 36.5.4  
 
 Install [Microg](https://github.com/ReVanced/GmsCore/releases) for non-root YouTube and YT Music APKs  
@@ -10,8 +9,8 @@ Use [zygisk-detach](https://github.com/j-hc/zygisk-detach) to detach root ReVanc
 [revanced-magisk-module](https://github.com/j-hc/revanced-magisk-module)
   
 CLI: j-hc/revanced-cli-5.0.0-all.jar  
-Patches: ReVanced/patches-5.27.0.rvp  
-[Changelog](https://github.com/ReVanced/revanced-patches/releases/tag/v5.27.0)  
+Patches: ReVanced/patches-5.28.0.rvp  
+[Changelog](https://github.com/ReVanced/revanced-patches/releases/tag/v5.28.0)  
 
 Skipped:  
-Patches: inotia00/patches-5.6.2.rvp                        
+Patches: inotia00/patches-5.6.2.rvp                          
